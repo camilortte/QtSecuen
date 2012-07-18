@@ -13,6 +13,10 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
     ui->setupUi(this);
     puntaje=NULL;
     ventana=NULL;
+    barraProgreso=new QProgressBar();
+    barraProgreso->setMinimum(1);
+    barraProgreso->setMaximum(100);
+    statusBar()->addWidget(barraProgreso,1);
 }
 
 VentanaPrincipal::~VentanaPrincipal()
@@ -50,11 +54,12 @@ void VentanaPrincipal::on_alinear_pushButton_clicked()
     https://www.google.com.co/search?q=status+bar+qt&ie=utf-8&oe=utf-8&aq=t&rls=org.mozilla:en-US:official&client=firefox-a
 */
 
-    ui->statusbar->showMessage ("Alineando secuencias por favor espere...");
+    ui->statusbar->showMessage("Alineamndo epsere",5000);
     QString resultado1="<p> ";
     QString resultado2="<p>";
-    QString a=ui->secuencia1_lineEdit->text ();
-    QString b=ui->secuencia2_lineEdit_2->text ();
+    ui->comboBox_secuencia1->currentText();
+    QString a=ui->comboBox_secuencia1->currentText();
+    QString b=ui->comboBox_secuencia2->currentText();
     if(puntaje==NULL){
         puntaje=new Puntaje(a,b);
         QString auxiliar=puntaje->getResultado1 ();
@@ -199,4 +204,23 @@ void VentanaPrincipal::on_actionAbrir_triggered()
     QMessageBox::information (this,"Funcion no implementada","Esta solicitud no ha sido implementada "
                               ",por favor comunicarse con camilortte@hotmail.com "
                               "para obtener mas informacion");
+}
+
+void VentanaPrincipal::on_pushButton_examinar_clicked()
+{
+    QString nombreArchivo=QFileDialog::getOpenFileName(this,"Abrir Secuencia",NULL,"Secuencia FASTA *.FASTA (*.FASTA)");
+    if( !nombreArchivo.isNull() )
+    {
+       ui->lineEdit_examinar->setText(nombreArchivo);
+        /* if(puntaje!=NULL){
+            QFile archivo(nombreArchivo);
+            archivo.open (QIODevice::WriteOnly);
+            QTextStream out(&archivo);
+            out << ui->salida_textBrowser->toPlainText ()<< "\n";
+            archivo.close ();
+        }else{
+            QMessageBox::warning(this,"No hay consulta","No se han realizado consultas, no se almacenará NADA");
+        }*/
+        qDebug()<<"jeje";
+    }
 }

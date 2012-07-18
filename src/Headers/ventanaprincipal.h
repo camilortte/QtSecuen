@@ -4,6 +4,7 @@
 #include <QtGui/QMainWindow>
 #include "puntaje.h"
 #include "ventanamatriz.h"
+#include <QProgressBar>
 
 namespace Ui {
 class VentanaPrincipal;
@@ -40,10 +41,13 @@ private slots:
 
     void on_actionAbrir_triggered();
 
+    void on_pushButton_examinar_clicked();
+
 private:
     Ui::VentanaPrincipal *ui;
     Puntaje *puntaje;
     VentanaMatriz *ventana;
+    QProgressBar *barraProgreso;
 };
 
 #endif // VENTANAPRINCIPAL_H
