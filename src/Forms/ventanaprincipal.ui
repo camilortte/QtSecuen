@@ -24,15 +24,21 @@
     <item>
      <layout class="QVBoxLayout" name="verticalLayout_4">
       <item>
-       <widget class="QTabWidget" name="tabWidget">
+       <widget class="QTabWidget" name="tabInicio">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="currentIndex">
-         <number>1</number>
+         <number>0</number>
         </property>
         <widget class="QWidget" name="tab">
          <attribute name="title">
           <string>Ingresar Secuencias</string>
          </attribute>
-         <layout class="QVBoxLayout" name="verticalLayout_2">
+         <layout class="QHBoxLayout" name="horizontalLayout_6">
           <item>
            <layout class="QVBoxLayout" name="verticalLayout">
             <item>
@@ -58,6 +64,11 @@
                 <item>
                  <property name="text">
                   <string>TCTTTGCTTTTCTTGTTTAAAATCGTACGTGTCACCCTACCCGG</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>TCTTTGCTTTTCTTGTTTAAAATCGTACGTGTCACCCTACCCGGTCTTTGCTTTTCTTGTTTAAAATCGTACGTGTCACCCTACCCGGTCTTTGCTTTTCTTGTTTAAAATCGTACGTGTCACCCTACCCGGTCTTTGCTTTTCTTGTTTAAAATCGTACGTGTCACCCTACCCGGTCTTTGCTTTTCTTGTTTAAAATCGTACGTGTCACCCTACCCGGTCTTTGCTTTTCTTGTTTAAAATCGTACGTGTCACCCTACCCGGTCTTTGCTTTTCTTGTTTAAAATCGTACGTGTCACCCTACCCGGTCTTTGCTTTTCTTGTTTAAAATCGTACGTGTCACCCTACCCGGTCTTTGCTTTTCTTGTTTAAAATCGTACGTGTCACCCTACCCGGTCTTTGCTTTTCTTGTTTAAAATCGTACGTGTCACCCTACCCGGTCTTTGCTTTTCTTGTTTAAAATCGTACGTGTCACCCTACCCGGTCTTTGCTTTTCTTGTTTAAAATCGTACGTGTCACCCTACCCGGTCTTTGCTTTTCTTGTTTAAAATCGTACGTGTCACCCTACCCGGTCTTTGCTTTTCTTGTTTAAAATCGTACGTGTCACCCTACCCGGTCTTTGCTTTTCTTGTTTAAAATCGTACGTGTCACCCTACCCGGTCTTTGCTTTTCTTGTTTAAAATCGTACGTGTCACCCTACCCGG</string>
                  </property>
                 </item>
                </widget>
@@ -87,6 +98,11 @@
                 <item>
                  <property name="text">
                   <string>TTGCTTTTCTTGTTTAAAATCGTACGTGTCGACCTACCCGGGG</string>
+                 </property>
+                </item>
+                <item>
+                 <property name="text">
+                  <string>TTGCTTTTCTTGTTTAAAATCGTACGTGTCGACCTACCCGGGGTTGCTTTTCTTGTTTAAAATCGTACGTGTCGACCTACCCGGGGTTGCTTTTCTTGTTTAAAATCGTACGTGTCGACCTACCCGGGGTTGCTTTTCTTGTTTAAAATCGTACGTGTCGACCTACCCGGGGTTGCTTTTCTTGTTTAAAATCGTACGTGTCGACCTACCCGGGGTTGCTTTTCTTGTTTAAAATCGTACGTGTCGACCTACCCGGGGTTGCTTTTCTTGTTTAAAATCGTACGTGTCGACCTACCCGGGGTTGCTTTTCTTGTTTAAAATCGTACGTGTCGACCTACCCGGGGTTGCTTTTCTTGTTTAAAATCGTACGTGTCGACCTACCCGGGGTTGCTTTTCTTGTTTAAAATCGTACGTGTCGACCTACCCGGGGTTGCTTTTCTTGTTTAAAATCGTACGTGTCGACCTACCCGGGGTTGCTTTTCTTGTTTAAAATCGTACGTGTCGACCTACCCGGGGTTGCTTTTCTTGTTTAAAATCGTACGTGTCGACCTACCCGGGGTTGCTTTTCTTGTTTAAAATCGTACGTGTCGACCTACCCGGGGTTGCTTTTCTTGTTTAAAATCGTACGTGTCGACCTACCCGGGG</string>
                  </property>
                 </item>
                </widget>

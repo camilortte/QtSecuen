@@ -4,9 +4,6 @@
 #include <stdarg.h>
 #include "src/Headers/convercion.h"
 
-
-
-
 Puntaje::Puntaje(){
     matrizBase[1][1]=10;
     matrizBase[1][2]=-1;
@@ -36,7 +33,44 @@ Puntaje::Puntaje(){
 }
 
 Puntaje::Puntaje(QString entrada1, QString entrada2)
+{    
+    this->vecta=comprobarEntrada (entrada1);
+    this->vectb=comprobarEntrada (entrada2);
+    this->barraProgreso=new QProgressBar();
+    inicializar();
+}
+
+Puntaje::Puntaje(QString entrada1, QString entrada2, QProgressBar *barraprogreso)
 {
+
+    this->vecta=comprobarEntrada (entrada1);
+    this->vectb=comprobarEntrada (entrada2);
+    this->barraProgreso=barraprogreso;
+    inicializar();
+}
+
+
+//si es falso se tendrqa que llamar el metodo para porder iniciar el algoritmo
+Puntaje::Puntaje(QString entrada1, QString entrada2, bool iniciarAutomaticamente)
+{
+    if(iniciarAutomaticamente==true){
+        this->vecta=comprobarEntrada (entrada1);
+        this->vectb=comprobarEntrada (entrada2);
+        this->barraProgreso=new QProgressBar();
+        inicializar();
+    }else{
+        this->vecta=comprobarEntrada (entrada1);
+        this->vectb=comprobarEntrada (entrada2);
+        this->barraProgreso=new QProgressBar();
+    }
+}
+
+
+
+
+void Puntaje::inicializar()
+{
+    Maximo=0;
     matrizBase[1][1]=10;
     matrizBase[1][2]=-1;
     matrizBase[1][3]=-3;
@@ -57,11 +91,8 @@ Puntaje::Puntaje(QString entrada1, QString entrada2)
     matrizBase[4][3]= 0;
     matrizBase[4][4]= 8;
 
-
     resultado1="";
     resultado2="";
-    this->vecta=comprobarEntrada (entrada1);
-    this->vectb=comprobarEntrada (entrada2);
 
     //creacion de la matriz
     array2D.resize(vecta.size ());
@@ -73,15 +104,19 @@ Puntaje::Puntaje(QString entrada1, QString entrada2)
     for(int i=1;i<array2D[0].size();i++){
         array2D[0][i]=i*-5;
     }
-   // qDebug ()<<"Size i="<<array2D.size ()<<" Size j="<<array2D[0].size();
     for(int i=1;i<array2D.size ();i++){
         array2D[i][0]=i*-5;
     }
-
     generarPuntage ();
     backTracking ();
-
 }
+
+
+void Puntaje::iniciarTodo()
+{
+    inicializar();
+}
+
 
 QString Puntaje::getMatrizResultante()
 {
@@ -127,7 +162,6 @@ QString Puntaje::getResultado2()
 }
 
 
-
 vector <qint32> Puntaje::comprobarEntrada(QString resultado)
 {
     QString auxiliar="_";
@@ -156,9 +190,14 @@ vector <qint32> Puntaje::comprobarEntrada(QString resultado)
 
 void Puntaje::generarPuntage()
 {
+    Maximo=vecta.size();
     int mayor=0;
-    //qDebug ()<<"vetaa= "<<vecta<<" vectb:"<<vectb;
+    int estado=1;
+    //generamos la matriz del alineamiento
     for(int i=1;i<vecta.size ();i++){
+        estado++;//Control de finalizacion
+    //    this->barraProgreso->setValue(estado);
+        emit estadoAlineacionPuntaje(estado,Maximo);
         for(int j=1;j<vectb.size ();j++){
             mayor=comprobarMatriz (vecta[i], vectb[j])+array2D[i-1][j-1];
             if(array2D[i][j-1]-5>mayor)
@@ -168,15 +207,11 @@ void Puntaje::generarPuntage()
             array2D[i][j]=mayor;
         }
     }
-   // QString priea="";
-
 }
 
 int Puntaje::comprobarMatriz(int a, int b)
 {
-   // qDebug ()<<"llega a="<<a<<" b="<<b;
-   // qDebug ()<<"Devuelbe "<<matrizBase[a][b];
-    return matrizBase[a][b];
+       return matrizBase[a][b];
 }
 
 void Puntaje::backTracking()
@@ -192,8 +227,6 @@ void Puntaje::backTracking()
     int contadorVectora=vecta.size ()-1;
     int contadorVectorb=vectb.size ()-1;
 
-
-    /////parte modificada
     while(i>0 || j>0){
         diagonal=false;
         izquierda=false;
@@ -254,9 +287,8 @@ void Puntaje::backTracking()
         puntoColu=j;
     }
     organizarAlineamiento ();
-   // qDebug ()<<resultado1<<"  "<<resultado2;
-    ////parte modificada
 }
+
 void Puntaje::organizarAlineamiento()
 {
     QString auxiliar="";
@@ -290,5 +322,6 @@ void Puntaje::organizarAlineamiento()
     }
     resultado2=auxiliar;
 }
+
 
 

@@ -5,24 +5,37 @@
 #include <QColorDialog>
 #include <QDebug>
 #include <QFileDialog>
+#include <QRect>
+#include <QDesktopWidget>
+#include <QProcess>
 
 VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::VentanaPrincipal)
 {
     ui->setupUi(this);
+
+    //para que la ventana este en la mitad de la pantalla
+    QRect qRect(QApplication::desktop()->screenGeometry());
+    int iXpos=qRect.width()/2-this->width()/2;
+    int iYpos=qRect.height()/2-this->height()/2;
+    this->move(iXpos,iYpos);
+
+    //inicializacion de componentes
     puntaje=NULL;
     ventana=NULL;
+    alinearThread=NULL;
     barraProgreso=new QProgressBar();
     barraProgreso->setMinimum(1);
     barraProgreso->setMaximum(100);
-    statusBar()->addWidget(barraProgreso,1);
+    conector=new QObject();
+    ui->statusbar->addWidget(barraProgreso);
+
 }
 
 VentanaPrincipal::~VentanaPrincipal()
 {
     delete ui;
-
 }
 
 void VentanaPrincipal::changeEvent(QEvent *e)
@@ -38,74 +51,33 @@ void VentanaPrincipal::changeEvent(QEvent *e)
 }
 
 void VentanaPrincipal::on_alinear_pushButton_clicked()
-{
-    /*QString a=ui->secuencia1_lineEdit->text ();
-    QString b=ui->secuencia2_lineEdit_2->text ();
-    if(puntaje==NULL){
-        puntaje=new Puntaje(a,b);
-        ui->salida_textBrowser->append ("Aneacion=\n"+puntaje->getResultado1 ()+"\n");
-        ui->salida_textBrowser->append (puntaje->getResultado2 ());
-    }else{
-        delete puntaje;
-        puntaje=new Puntaje(a,b);
-        ui->salida_textBrowser->append ("Aneacion=\n"+puntaje->getResultado1 ()+"\n");
-        ui->salida_textBrowser->append (puntaje->getResultado2 ());
-    }/
-    https://www.google.com.co/search?q=status+bar+qt&ie=utf-8&oe=utf-8&aq=t&rls=org.mozilla:en-US:official&client=firefox-a
-*/
+{    
 
-    ui->statusbar->showMessage("Alineamndo epsere",5000);
-    QString resultado1="<p> ";
-    QString resultado2="<p>";
-    ui->comboBox_secuencia1->currentText();
-    QString a=ui->comboBox_secuencia1->currentText();
-    QString b=ui->comboBox_secuencia2->currentText();
-    if(puntaje==NULL){
-        puntaje=new Puntaje(a,b);
-        QString auxiliar=puntaje->getResultado1 ();
-        QString auxiliar2=puntaje->getResultado2 ();
-
-        for(int i=0;i<puntaje->getResultado1 ().length ();i++){
-            if(auxiliar[i]=='_' || auxiliar2[i]=='_'){
-                resultado1+="<FONT COLOR=red>"+auxiliar[i]+" </FONT>";
-                resultado2+="<FONT COLOR=red>"+auxiliar2[i]+" </FONT>";
-            }else{
-                resultado1+="<FONT COLOR=green>"+auxiliar[i]+" </FONT>";
-                resultado2+="<FONT COLOR=green>"+auxiliar2[i]+" </FONT>";
-            }
+    if(ui->tabInicio->currentWidget()==ui->tab){
+        barraProgreso->setValue(1);
+        ui->alinear_pushButton->setEnabled(false);
+       // ui->statusbar->showMessage("Ejecutando alineacion... ");
+        QString secuencias[2];
+        secuencias[0]=ui->comboBox_secuencia1->currentText();
+        secuencias[1]=ui->comboBox_secuencia2->currentText();
+        if(puntaje!=NULL)
+            delete puntaje;
+        if(alinearThread==NULL){
+            alinearThread=new AlinearThread(secuencias,barraProgreso);
+            conector->connect(alinearThread,SIGNAL(estadoAlineacionThread(int,int)),this,SLOT(estaodAlineacionVentana(int,int)));
+            conector->connect(alinearThread,SIGNAL(finished()),this,SLOT(hilo()));
+            alinearThread->start();
         }
-        resultado1+="</p>";
-        resultado2+="</p>";
-
-        ui->salida_textBrowser->append ("Aneacion=");
-        ui->salida_textBrowser->append(resultado1);
-        ui->salida_textBrowser->append (resultado2);
-        ui->salida_textBrowser->append ("\n");
-    }else{
-        delete puntaje;
-        puntaje=new Puntaje(a,b);
-        QString auxiliar=puntaje->getResultado1 ();
-        QString auxiliar2=puntaje->getResultado2 ();
-
-        for(int i=0;i<puntaje->getResultado1 ().length ();i++){
-            if(auxiliar[i]=='_' || auxiliar2[i]=='_'){
-                resultado1+="<FONT COLOR=red>"+auxiliar[i]+" </FONT>";
-                resultado2+="<FONT COLOR=red>"+auxiliar2[i]+" </FONT>";
-            }else{
-                resultado1+="<FONT COLOR=green>"+auxiliar[i]+" </FONT>";
-                resultado2+="<FONT COLOR=green>"+auxiliar2[i]+" </FONT>";
-            }
+        else{
+            delete alinearThread;
+            alinearThread=new AlinearThread(secuencias,barraProgreso);
+            conector->connect(alinearThread,SIGNAL(estadoAlineacionThread(int,int)),this,SLOT(estaodAlineacionVentana(int,int)));
+            conector->connect(alinearThread,SIGNAL(finished()),this,SLOT(hilo()));
+            alinearThread->start();
         }
-        resultado1+="</p>";
-        resultado2+="</p>";
-
-        ui->salida_textBrowser->append ("Aneacion=");
-        ui->salida_textBrowser->append(resultado1);
-        ui->salida_textBrowser->append (resultado2);
-        ui->salida_textBrowser->append ("\n");
+    }else{
+        //para cargar archivo
     }
-
-
 }
 
 void VentanaPrincipal::on_limpiar_pushButton_clicked()
@@ -223,4 +195,28 @@ void VentanaPrincipal::on_pushButton_examinar_clicked()
         }*/
         qDebug()<<"jeje";
     }
+}
+
+
+
+void VentanaPrincipal::hilo()
+{
+    this->puntaje=alinearThread->getPuntaje();
+    ui->salida_textBrowser->append ("Aneacion=");
+    ui->salida_textBrowser->append(alinearThread->getResultados()[0]);
+    ui->salida_textBrowser->append (alinearThread->getResultados()[1]);
+    ui->salida_textBrowser->append ("\n");
+    //barraProgreso->setValue(1);
+    ui->alinear_pushButton->setEnabled(true);
+}
+
+void VentanaPrincipal::testAttribute(int a)
+{
+    qDebug()<<QString("Current Thread Processing Status : %1").arg(a);
+}
+
+void VentanaPrincipal::estaodAlineacionVentana(int numero, int Maximo)
+{
+    barraProgreso->setMaximum(Maximo);
+    barraProgreso->setValue(numero);
 }
