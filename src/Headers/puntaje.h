@@ -5,6 +5,7 @@
 #define MAX_COLUMNAS 100
 #include <vector>
 #include <QProgressBar>
+#include <QFile>
 
 using namespace std;
 
@@ -26,13 +27,13 @@ private:
 public:
     Puntaje();
     Puntaje(QString entrada1,QString entrada2);
-    Puntaje(QString entrada1,QString entrada2,QProgressBar *barraprogreso);
     Puntaje(QString entrada1,QString entrada2,bool iniciarAutomaticamente);
+    Puntaje(QFile *archivo,bool iniciaarAutomaticamente);
     QString getMatrizResultante();
     QString getResultado1();
     QString getResultado2();
+    QFile *archivo;
     //seguimiento de finalziacion
-    QProgressBar *barraProgreso;
     int Maximo;
     void iniciarTodo();
 

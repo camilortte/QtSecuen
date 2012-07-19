@@ -8,6 +8,7 @@
 #include <QRect>
 #include <QDesktopWidget>
 #include <QProcess>
+#include <QMessageBox>
 
 VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
     QMainWindow(parent),
@@ -31,6 +32,11 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
     conector=new QObject();
     ui->statusbar->addWidget(barraProgreso);
 
+
+    //esto toca Borrarlo
+    //QFile *archivo=new QFile("/home/c4m170rtt3/Desktop/Secuencias_20para_20alineamiento.FASTA");
+    //Puntaje *p=new Puntaje(archivo,true);
+
 }
 
 VentanaPrincipal::~VentanaPrincipal()
@@ -52,31 +58,37 @@ void VentanaPrincipal::changeEvent(QEvent *e)
 
 void VentanaPrincipal::on_alinear_pushButton_clicked()
 {    
+    bool banderaPass=true;
+    if(puntaje!=NULL)
+        delete puntaje;
+    if(alinearThread!=NULL)
+        delete alinearThread;
+
+    ui->alinear_pushButton->setEnabled(false);
 
     if(ui->tabInicio->currentWidget()==ui->tab){
         barraProgreso->setValue(1);
-        ui->alinear_pushButton->setEnabled(false);
        // ui->statusbar->showMessage("Ejecutando alineacion... ");
         QString secuencias[2];
         secuencias[0]=ui->comboBox_secuencia1->currentText();
         secuencias[1]=ui->comboBox_secuencia2->currentText();
-        if(puntaje!=NULL)
-            delete puntaje;
-        if(alinearThread==NULL){
-            alinearThread=new AlinearThread(secuencias,barraProgreso);
-            conector->connect(alinearThread,SIGNAL(estadoAlineacionThread(int,int)),this,SLOT(estaodAlineacionVentana(int,int)));
-            conector->connect(alinearThread,SIGNAL(finished()),this,SLOT(hilo()));
-            alinearThread->start();
-        }
-        else{
-            delete alinearThread;
-            alinearThread=new AlinearThread(secuencias,barraProgreso);
-            conector->connect(alinearThread,SIGNAL(estadoAlineacionThread(int,int)),this,SLOT(estaodAlineacionVentana(int,int)));
-            conector->connect(alinearThread,SIGNAL(finished()),this,SLOT(hilo()));
-            alinearThread->start();
-        }
+        alinearThread=new AlinearThread(secuencias);
     }else{
-        //para cargar archivo
+        QFile *archivo=new QFile(ui->lineEdit_examinar->text());
+        if(archivo->exists()){
+            alinearThread=new AlinearThread(archivo);
+        }else{
+            QMessageBox::critical(this,"Error al leer el archivo","No se pudo leer el archivo ,comprueba su existencia o el formato.");
+            banderaPass=false;
+            puntaje=NULL;
+            alinearThread=NULL;
+            ui->alinear_pushButton->setEnabled(true);
+        }
+    }
+    if(banderaPass!=false){
+        conector->connect(alinearThread,SIGNAL(estadoAlineacionThread(int,int)),this,SLOT(estaodAlineacionVentana(int,int)));
+        conector->connect(alinearThread,SIGNAL(finished()),this,SLOT(hilo()));
+        alinearThread->start();
     }
 }
 
@@ -210,10 +222,7 @@ void VentanaPrincipal::hilo()
     ui->alinear_pushButton->setEnabled(true);
 }
 
-void VentanaPrincipal::testAttribute(int a)
-{
-    qDebug()<<QString("Current Thread Processing Status : %1").arg(a);
-}
+
 
 void VentanaPrincipal::estaodAlineacionVentana(int numero, int Maximo)
 {

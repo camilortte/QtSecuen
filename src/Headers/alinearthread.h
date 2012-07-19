@@ -10,7 +10,10 @@ class AlinearThread : public QThread
     Q_OBJECT
 public:
     AlinearThread();
-    AlinearThread(QString secuencias[],QProgressBar *barraProgreso);
+    //para secuencias ingresadas manualmente
+    AlinearThread(QString secuencias[]);
+    //para cuando las cargamos desde un archivo
+    AlinearThread(QFile *archivo);
     void run();
     Puntaje* getPuntaje();
     QString* getResultados();
@@ -19,8 +22,8 @@ signals:
 private slots:
     void slot_estadoAlineacionThread(int,int);
 private:
-    QProgressBar *barraProgreso;
     Puntaje *puntaje;
+    QFile *archivo;
     QString resultados[2];
     QString secuencias[2];//esta sera de dos
 };

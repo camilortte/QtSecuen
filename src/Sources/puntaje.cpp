@@ -3,6 +3,8 @@
 #include <QVector2D>
 #include <stdarg.h>
 #include "src/Headers/convercion.h"
+#include <QMessageBox>
+#include <QDebug>
 
 Puntaje::Puntaje(){
     matrizBase[1][1]=10;
@@ -33,19 +35,9 @@ Puntaje::Puntaje(){
 }
 
 Puntaje::Puntaje(QString entrada1, QString entrada2)
-{    
-    this->vecta=comprobarEntrada (entrada1);
-    this->vectb=comprobarEntrada (entrada2);
-    this->barraProgreso=new QProgressBar();
-    inicializar();
-}
-
-Puntaje::Puntaje(QString entrada1, QString entrada2, QProgressBar *barraprogreso)
 {
-
     this->vecta=comprobarEntrada (entrada1);
     this->vectb=comprobarEntrada (entrada2);
-    this->barraProgreso=barraprogreso;
     inicializar();
 }
 
@@ -53,15 +45,59 @@ Puntaje::Puntaje(QString entrada1, QString entrada2, QProgressBar *barraprogreso
 //si es falso se tendrqa que llamar el metodo para porder iniciar el algoritmo
 Puntaje::Puntaje(QString entrada1, QString entrada2, bool iniciarAutomaticamente)
 {
-    if(iniciarAutomaticamente==true){
-        this->vecta=comprobarEntrada (entrada1);
-        this->vectb=comprobarEntrada (entrada2);
-        this->barraProgreso=new QProgressBar();
+    this->vecta=comprobarEntrada (entrada1);
+    this->vectb=comprobarEntrada (entrada2);
+    if(iniciarAutomaticamente==true)
         inicializar();
+}
+
+Puntaje::Puntaje(QFile *archivo, bool iniciaarAutomaticamente)
+{
+    QString secuencia1="",secuencia2="",nombreSecuencia1,nombreSecuencia2;
+    short contador=1;
+    //BufferedReader reader = null;
+    this->archivo=archivo;
+    if (!archivo->open(QIODevice::ReadOnly | QIODevice::Text)){
+        qDebug()<<"error de archivo";
+        //QMessageBox::information(NULL,"Error al abrir el archivo","Error de lectura , no se puede abrir el archivo");
     }else{
-        this->vecta=comprobarEntrada (entrada1);
-        this->vectb=comprobarEntrada (entrada2);
-        this->barraProgreso=new QProgressBar();
+        QTextStream stream(archivo);
+        QString linea;
+        short contador=1;
+        while(!stream.atEnd()){
+            linea = stream.readLine();
+            if(linea[0]=='>'){
+                if(contador==1){
+                    nombreSecuencia1=linea.mid(1, linea.length());
+                }else{
+                    nombreSecuencia2=linea.mid(1, linea.length());
+                }
+
+                linea=stream.readLine();
+                if(linea[0]!='#'){
+                    if(contador==1){
+                        //secuencia1=linea;
+                        this->vecta=comprobarEntrada (linea);
+                        qDebug()<<"secuencias 1: "<<linea;
+                        contador++;
+                    }else if(contador==2){
+                        //secuencia2=linea;
+                        this->vectb=comprobarEntrada (linea);
+                        qDebug()<<"secuencias 2: "<<linea;
+                        contador++;
+                    }
+                }
+                if(contador>=2){
+                    ////-----------Aca se modificara para un futuro leer mas de dos secuencias
+                }
+            }else{
+                linea=stream.readLine();
+            }
+
+        }
+        if(iniciaarAutomaticamente==true){
+            inicializar();
+        }
     }
 }
 

@@ -46,8 +46,6 @@ private slots:
 
     void hilo();
 
-    void testAttribute(int a);
-
     void estaodAlineacionVentana(int,int);
 
 private:

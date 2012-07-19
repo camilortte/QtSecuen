@@ -7,19 +7,30 @@ AlinearThread::AlinearThread()
 {
 }
 
-AlinearThread::AlinearThread(QString secuencias[], QProgressBar *barraProgreso)
+AlinearThread::AlinearThread(QString secuencias[])
 {
     this->secuencias[0]=secuencias[0];//Esto me toca mejorarlos
     this->secuencias[1]=secuencias[1];
-    this->barraProgreso=barraProgreso;
     puntaje=NULL;
+    archivo=NULL;
+}
+
+AlinearThread::AlinearThread(QFile *archivo)
+{
+    this->archivo=archivo;
 }
 
 void AlinearThread::run()
 {
     QString resultado1="<p> ";
     QString resultado2="<p>";
-    puntaje=new Puntaje(secuencias[0],secuencias[1],false);
+
+    if(this->archivo==NULL){
+        puntaje=new Puntaje(secuencias[0],secuencias[1],false);
+    }else{
+        puntaje=new Puntaje(archivo,false);
+    }
+
     connect(puntaje,SIGNAL(estadoAlineacionPuntaje(int,int)),this,SLOT(slot_estadoAlineacionThread(int,int)));
     puntaje->iniciarTodo();
 
