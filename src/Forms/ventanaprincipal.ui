@@ -237,7 +237,17 @@ p, li { white-space: pre-wrap; }
     <property name="title">
      <string>Archivo</string>
     </property>
+    <widget class="QMenu" name="menuExportarComo">
+     <property name="title">
+      <string>ExportarComo</string>
+     </property>
+     <addaction name="actionArchivo_FASTA"/>
+     <addaction name="actionHtml"/>
+    </widget>
     <addaction name="actionAbrir"/>
+    <addaction name="separator"/>
+    <addaction name="menuExportarComo"/>
+    <addaction name="separator"/>
     <addaction name="actionGuardar"/>
     <addaction name="separator"/>
     <addaction name="actionSalir"/>
@@ -267,12 +277,12 @@ p, li { white-space: pre-wrap; }
   </action>
   <action name="actionAbrir">
    <property name="text">
-    <string>Abrir</string>
+    <string>Abrir resultados</string>
    </property>
   </action>
   <action name="actionGuardar">
    <property name="text">
-    <string>Guardar Como</string>
+    <string>Guardar Resultado Alineacion </string>
    </property>
   </action>
   <action name="actionCopiar">
@@ -288,6 +298,16 @@ p, li { white-space: pre-wrap; }
   <action name="actionAcerca_de_Qt">
    <property name="text">
     <string>Acerca de Qt</string>
+   </property>
+  </action>
+  <action name="actionArchivo_FASTA">
+   <property name="text">
+    <string>Archivo .FASTA</string>
+   </property>
+  </action>
+  <action name="actionHtml">
+   <property name="text">
+    <string>Html</string>
    </property>
   </action>
  </widget>

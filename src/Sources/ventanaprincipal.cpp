@@ -9,6 +9,7 @@
 #include <QDesktopWidget>
 #include <QProcess>
 #include <QMessageBox>
+#include "src/Headers/exportararchivo.h"
 
 VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
     QMainWindow(parent),
@@ -196,16 +197,6 @@ void VentanaPrincipal::on_pushButton_examinar_clicked()
     if( !nombreArchivo.isNull() )
     {
        ui->lineEdit_examinar->setText(nombreArchivo);
-        /* if(puntaje!=NULL){
-            QFile archivo(nombreArchivo);
-            archivo.open (QIODevice::WriteOnly);
-            QTextStream out(&archivo);
-            out << ui->salida_textBrowser->toPlainText ()<< "\n";
-            archivo.close ();
-        }else{
-            QMessageBox::warning(this,"No hay consulta","No se han realizado consultas, no se almacenará NADA");
-        }*/
-        qDebug()<<"jeje";
     }
 }
 
@@ -214,11 +205,8 @@ void VentanaPrincipal::on_pushButton_examinar_clicked()
 void VentanaPrincipal::hilo()
 {
     this->puntaje=alinearThread->getPuntaje();
-    ui->salida_textBrowser->append ("Aneacion=");
     ui->salida_textBrowser->append(alinearThread->getResultados()[0]);
     ui->salida_textBrowser->append (alinearThread->getResultados()[1]);
-    ui->salida_textBrowser->append ("\n");
-    //barraProgreso->setValue(1);
     ui->alinear_pushButton->setEnabled(true);
 }
 
@@ -228,4 +216,22 @@ void VentanaPrincipal::estaodAlineacionVentana(int numero, int Maximo)
 {
     barraProgreso->setMaximum(Maximo);
     barraProgreso->setValue(numero);
+}
+
+void VentanaPrincipal::on_actionHtml_triggered()
+{
+    if(puntaje!=NULL){
+        /*QFileDialog ventanaGuardar;
+        QString nombreArchivo=ventanaGuardar.getSaveFileName(this,tr("Exportar a HTML"), "AlineamientoDeSecuencias",tr("HTML(*.HTML)"));*/
+        QString nombreArchivo=QFileDialog::getSaveFileName(this,
+                                                           tr("Exportar a HTML"), "AlineamientoDeSecuencias",
+                                                           tr("HTML(*.HTML)"));
+        if( !nombreArchivo.isNull() )
+        {
+            ExportarArchivo exportar;
+            exportar.exportarHtml(alinearThread->getResultados()[0], alinearThread->getResultados()[1],nombreArchivo);
+        }
+    }else{
+        QMessageBox::warning(this,"No hay consulta","No se han realizado consultas, no se almacenará NADA");
+    }
 }

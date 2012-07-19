@@ -15,14 +15,16 @@ HEADERS += src/Headers/ventanaprincipal.h \
     src/Headers/ventanamatriz.h \
     src/Headers/convercion.h \
     src/Headers/alinearthread.h \
-    src/Headers/puntaje.h
+    src/Headers/puntaje.h \
+    src/Headers/exportararchivo.h
 
 SOURCES += src/Sources/ventanaprincipal.cpp \
     src/Sources/ventanamatriz.cpp \
     src/Sources/puntaje.cpp \
     src/Sources/main.cpp \
     src/Sources/convercion.cpp \
-    src/Sources/alinearthread.cpp
+    src/Sources/alinearthread.cpp \
+    src/Sources/exportararchivo.cpp
 
 FORMS += src/Forms/ventanaprincipal.ui \
     src/Forms/ventanamatriz.ui

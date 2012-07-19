@@ -48,6 +48,8 @@ private slots:
 
     void estaodAlineacionVentana(int,int);
 
+    void on_actionHtml_triggered();
+
 private:
     Ui::VentanaPrincipal *ui;
     Puntaje *puntaje;
