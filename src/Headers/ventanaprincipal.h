@@ -50,6 +50,8 @@ private slots:
 
     void on_actionHtml_triggered();
 
+    void on_actionArchivo_FASTA_triggered();
+
 private:
     Ui::VentanaPrincipal *ui;
     Puntaje *puntaje;

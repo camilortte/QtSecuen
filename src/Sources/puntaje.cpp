@@ -78,12 +78,10 @@ Puntaje::Puntaje(QFile *archivo, bool iniciaarAutomaticamente)
                     if(contador==1){
                         //secuencia1=linea;
                         this->vecta=comprobarEntrada (linea);
-                        qDebug()<<"secuencias 1: "<<linea;
                         contador++;
                     }else if(contador==2){
                         //secuencia2=linea;
                         this->vectb=comprobarEntrada (linea);
-                        qDebug()<<"secuencias 2: "<<linea;
                         contador++;
                     }
                 }

@@ -166,20 +166,17 @@ void VentanaPrincipal::on_actionCopiar_triggered()
 
 void VentanaPrincipal::on_actionGuardar_triggered()
 {
-    QString nombreArchivo=QFileDialog::getSaveFileName(this,
-                                                       tr("Save Address Book"), "",
-                                                       tr("Archivo de texto (*.txt);;All Files (*)"));
-    if( !nombreArchivo.isNull() )
-    {
-        if(puntaje!=NULL){
-            QFile archivo(nombreArchivo);
-            archivo.open (QIODevice::WriteOnly);
-            QTextStream out(&archivo);
-            out << ui->salida_textBrowser->toPlainText ()<< "\n";
-            archivo.close ();
-        }else{
-            QMessageBox::warning(this,"No hay consulta","No se han realizado consultas, no se almacenará NADA");
+     if(puntaje!=NULL){
+        QString nombreArchivo=QFileDialog::getSaveFileName(this,
+                                                           tr("Guardar resultados Alineacion"), "ResultadoAlineacion",
+                                                           tr("Archivo de texto (*.txt);;All Files (*)"));
+        if( !nombreArchivo.isNull() )
+        {
+            ExportarArchivo exportar;
+            exportar.almacentarTextoPlano(ui->salida_textBrowser->toPlainText(),nombreArchivo);
         }
+    }else{
+        QMessageBox::warning(this,"No hay consulta","No se han realizado consultas, no se almacenará NADA");
     }
 
 }
@@ -221,8 +218,6 @@ void VentanaPrincipal::estaodAlineacionVentana(int numero, int Maximo)
 void VentanaPrincipal::on_actionHtml_triggered()
 {
     if(puntaje!=NULL){
-        /*QFileDialog ventanaGuardar;
-        QString nombreArchivo=ventanaGuardar.getSaveFileName(this,tr("Exportar a HTML"), "AlineamientoDeSecuencias",tr("HTML(*.HTML)"));*/
         QString nombreArchivo=QFileDialog::getSaveFileName(this,
                                                            tr("Exportar a HTML"), "AlineamientoDeSecuencias",
                                                            tr("HTML(*.HTML)"));
@@ -230,6 +225,22 @@ void VentanaPrincipal::on_actionHtml_triggered()
         {
             ExportarArchivo exportar;
             exportar.exportarHtml(alinearThread->getResultados()[0], alinearThread->getResultados()[1],nombreArchivo);
+        }
+    }else{
+        QMessageBox::warning(this,"No hay consulta","No se han realizado consultas, no se almacenará NADA");
+    }
+}
+
+void VentanaPrincipal::on_actionArchivo_FASTA_triggered()
+{
+    if(puntaje!=NULL){
+        QString nombreArchivo=QFileDialog::getSaveFileName(this,
+                                                           tr("Exportar a FASTA"), "AlineamientoDeSecuencias",
+                                                           tr("FASTA(*.FASTA)"));
+        if( !nombreArchivo.isNull() )
+        {
+            ExportarArchivo exportar;
+            exportar.exportarFasta(puntaje->getResultado1(), puntaje->getResultado2(),nombreArchivo);
         }
     }else{
         QMessageBox::warning(this,"No hay consulta","No se han realizado consultas, no se almacenará NADA");

@@ -246,9 +246,9 @@ p, li { white-space: pre-wrap; }
     </widget>
     <addaction name="actionAbrir"/>
     <addaction name="separator"/>
-    <addaction name="menuExportarComo"/>
-    <addaction name="separator"/>
     <addaction name="actionGuardar"/>
+    <addaction name="separator"/>
+    <addaction name="menuExportarComo"/>
     <addaction name="separator"/>
     <addaction name="actionSalir"/>
    </widget>
@@ -283,6 +283,9 @@ p, li { white-space: pre-wrap; }
   <action name="actionGuardar">
    <property name="text">
     <string>Guardar Resultado Alineacion </string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
    </property>
   </action>
   <action name="actionCopiar">
