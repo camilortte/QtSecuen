@@ -21,7 +21,7 @@ void ExportarArchivo::exportarHtml(QString secuencia1, QString secuencia2,QStrin
     html+="<p>>Secuencia 2 </p>\n";
     html+=secuencia2;
     html+="<p>#||Codigo generado por QtSecuen V2.5</p>";
-    html+="\n<p>\n||By C4M170RTT3</p>\n";
+    html+="\n<p>\n#||By C4M170RTT3</p>\n";
     html+="</body>\n";
     html+="</html>";
     out << html;

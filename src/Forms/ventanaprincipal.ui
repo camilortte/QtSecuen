@@ -19,6 +19,10 @@
   <property name="windowTitle">
    <string>Alineamiento de secuencias</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="../../Resorucess.qrc">
+    <normaloff>:/Images/images.jpeg</normaloff>:/Images/images.jpeg</iconset>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout_5">
     <item>
@@ -162,6 +166,9 @@
           </property>
           <property name="lineWrapMode">
            <enum>QTextEdit::NoWrap</enum>
+          </property>
+          <property name="readOnly">
+           <bool>false</bool>
           </property>
           <property name="html">
            <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
@@ -338,7 +345,9 @@ p, li { white-space: pre-wrap; }
   <tabstop>salida_textBrowser</tabstop>
   <tabstop>verMatriz_pushButton_2</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="../../Resorucess.qrc"/>
+ </resources>
  <connections/>
  <buttongroups>
   <buttongroup name="buttonGroup_2"/>

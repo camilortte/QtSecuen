@@ -10,6 +10,7 @@
 #include <QProcess>
 #include <QMessageBox>
 #include "src/Headers/exportararchivo.h"
+#include "src/Headers/dialog.h"
 
 VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
     QMainWindow(parent),
@@ -32,6 +33,7 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
     barraProgreso->setMaximum(100);
     conector=new QObject();
     ui->statusbar->addWidget(barraProgreso);
+    aboutMe=new Dialog(this);
 
 
     //esto toca Borrarlo
@@ -146,10 +148,12 @@ void VentanaPrincipal::on_actionAcerca_de_Qt_triggered()
 
 void VentanaPrincipal::on_actionAcerca_de_estePrograma_triggered()
 {
-    QMessageBox::about (this,"Creacion C4M170RTT3","Este programa ha sido diseñado y creado por \n"
+   /* QMessageBox::about (this,"Creacion C4M170RTT3","Este programa ha sido diseñado y creado por \n"
                         "Camilo Antonio Ramirez Morales estudiante de \n"
                               "la Universidad distrital Francisco Jose de caldas\n"
-                               "Para mayor informacion camilortte@hotmail.com");
+                               "Para mayor informacion camilortte@hotmail.com");*/
+    aboutMe->show();
+
 }
 
 void VentanaPrincipal::on_actionCopiar_triggered()
@@ -245,4 +249,30 @@ void VentanaPrincipal::on_actionArchivo_FASTA_triggered()
     }else{
         QMessageBox::warning(this,"No hay consulta","No se han realizado consultas, no se almacenará NADA");
     }
+}
+
+void VentanaPrincipal::on_actionCortar_triggered()
+{
+    if(puntaje==NULL){
+        QMessageBox::warning(this,"No hay consulta","No se han realizado consultas");
+    }else{
+       ui->salida_textBrowser->cut();
+    }
+}
+
+void VentanaPrincipal::on_actionPegar_triggered()
+{
+    if(puntaje==NULL){
+        QMessageBox::warning(this,"No hay consulta","No se han realizado consultas");
+    }else{
+        ui->salida_textBrowser->selectAll ();
+        ui->salida_textBrowser->moveCursor (QTextCursor::End);
+        ui->salida_textBrowser->moveCursor (QTextCursor::Left);
+        ui->salida_textBrowser->paste();
+    }
+}
+
+void VentanaPrincipal::on_actionSeleccionar_todo_triggered()
+{
+    ui->salida_textBrowser->selectAll();
 }

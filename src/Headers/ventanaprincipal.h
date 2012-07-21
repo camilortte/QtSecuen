@@ -6,6 +6,7 @@
 #include "ventanamatriz.h"
 #include <QProgressBar>
 #include "src/Headers/alinearthread.h"
+#include "src/Headers/dialog.h"
 
 namespace Ui {
 class VentanaPrincipal;
@@ -52,6 +53,12 @@ private slots:
 
     void on_actionArchivo_FASTA_triggered();
 
+    void on_actionCortar_triggered();
+
+    void on_actionPegar_triggered();
+
+    void on_actionSeleccionar_todo_triggered();
+
 private:
     Ui::VentanaPrincipal *ui;
     Puntaje *puntaje;
@@ -59,6 +66,7 @@ private:
     QProgressBar *barraProgreso;
     AlinearThread *alinearThread;
     QObject *conector;
+    Dialog *aboutMe;
 };
 
 #endif // VENTANAPRINCIPAL_H
