@@ -257,6 +257,9 @@ p, li { white-space: pre-wrap; }
      <string>Edicion</string>
     </property>
     <addaction name="actionCopiar"/>
+    <addaction name="actionCortar"/>
+    <addaction name="actionPegar"/>
+    <addaction name="actionSeleccionar_todo"/>
    </widget>
    <widget class="QMenu" name="menuAyuda">
     <property name="title">
@@ -311,6 +314,21 @@ p, li { white-space: pre-wrap; }
   <action name="actionHtml">
    <property name="text">
     <string>Html</string>
+   </property>
+  </action>
+  <action name="actionCortar">
+   <property name="text">
+    <string>Cortar</string>
+   </property>
+  </action>
+  <action name="actionPegar">
+   <property name="text">
+    <string>Pegar</string>
+   </property>
+  </action>
+  <action name="actionSeleccionar_todo">
+   <property name="text">
+    <string>Seleccionar todo</string>
    </property>
   </action>
  </widget>

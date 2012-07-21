@@ -158,9 +158,9 @@ void VentanaPrincipal::on_actionCopiar_triggered()
         QMessageBox::warning(this,"No hay consulta","No se han realizado consultas");
     }else{
         ui->salida_textBrowser->selectAll ();
-        ui->salida_textBrowser->copy ();
         ui->salida_textBrowser->moveCursor (QTextCursor::End);
         ui->salida_textBrowser->moveCursor (QTextCursor::Left);
+        ui->salida_textBrowser->copy ();
     }
 }
 
