@@ -34,6 +34,7 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
     conector=new QObject();
     barraProgreso->setVisible(false);
     ui->statusbar->addPermanentWidget(barraProgreso,0);
+    ui->statusbar->showMessage("¡Bienvenido a QtSecuen! -> leer Acerca de para mas info. ",2000);
     aboutMe=new Dialog(this);
 
 
@@ -195,6 +196,8 @@ void VentanaPrincipal::on_actionGuardar_triggered()
         {
             ExportarArchivo exportar;
             exportar.almacentarTextoPlano(ui->salida_textBrowser->toPlainText(),nombreArchivo);
+            ui->statusbar->showMessage("Se almaceno Correctamente",4000);
+            this->barraProgreso->setVisible(false);
         }
     }else{
         QMessageBox::warning(this,"No hay consulta","No se han realizado consultas, no se almacenará NADA");
@@ -248,6 +251,8 @@ void VentanaPrincipal::on_actionHtml_triggered()
         {
             ExportarArchivo exportar;
             exportar.exportarHtml(alinearThread->getResultados()[0], alinearThread->getResultados()[1],nombreArchivo);
+            ui->statusbar->showMessage("Se exporto a HTML.",4000);
+            this->barraProgreso->setVisible(false);
         }
     }else{
         QMessageBox::warning(this,"No hay consulta","No se han realizado consultas, no se almacenará NADA");
@@ -264,6 +269,8 @@ void VentanaPrincipal::on_actionArchivo_FASTA_triggered()
         {
             ExportarArchivo exportar;
             exportar.exportarFasta(puntaje->getResultado1(), puntaje->getResultado2(),nombreArchivo);
+            ui->statusbar->showMessage("Se exporto a FASTA.",4000);
+            this->barraProgreso->setVisible(false);
         }
     }else{
         QMessageBox::warning(this,"No hay consulta","No se han realizado consultas, no se almacenará NADA");
@@ -276,6 +283,8 @@ void VentanaPrincipal::on_actionCortar_triggered()
         QMessageBox::warning(this,"No hay consulta","No se han realizado consultas");
     }else{
        ui->salida_textBrowser->cut();
+       ui->statusbar->showMessage("Texto Cortado.",2000);
+       this->barraProgreso->setVisible(false);
     }
 }
 
@@ -288,6 +297,8 @@ void VentanaPrincipal::on_actionPegar_triggered()
         ui->salida_textBrowser->moveCursor (QTextCursor::End);
         ui->salida_textBrowser->moveCursor (QTextCursor::Left);
         ui->salida_textBrowser->paste();
+        ui->statusbar->showMessage("Pegado.",2000);
+        this->barraProgreso->setVisible(false);
     }
 }
 
