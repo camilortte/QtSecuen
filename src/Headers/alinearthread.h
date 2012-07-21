@@ -14,6 +14,7 @@ public:
     AlinearThread(QString secuencias[]);
     //para cuando las cargamos desde un archivo
     AlinearThread(QFile *archivo);
+    ~AlinearThread();
     void run();
     Puntaje* getPuntaje();
     QString* getResultados();

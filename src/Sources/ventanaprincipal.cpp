@@ -32,7 +32,8 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
     barraProgreso->setMinimum(1);
     barraProgreso->setMaximum(100);
     conector=new QObject();
-    ui->statusbar->addWidget(barraProgreso);
+    barraProgreso->setVisible(false);
+    ui->statusbar->addPermanentWidget(barraProgreso,0);
     aboutMe=new Dialog(this);
 
 
@@ -45,6 +46,20 @@ VentanaPrincipal::VentanaPrincipal(QWidget *parent) :
 VentanaPrincipal::~VentanaPrincipal()
 {
     delete ui;
+//    if(puntaje!=NULL)
+//        delete puntaje;
+//    if(ventana!=NULL)
+//        delete ventana;
+//    if(barraProgreso!=NULL)
+//        delete barraProgreso;
+//    if(alinearThread!=NULL)
+//        delete alinearThread;
+//    if(conector!=NULL)
+//        delete conector;
+//    if(aboutMe!=NULL)
+//        delete aboutMe;
+//    if(getMatrizThread1!=NULL)
+//        delete getMatrizThread1;
 }
 
 void VentanaPrincipal::changeEvent(QEvent *e)
@@ -61,11 +76,17 @@ void VentanaPrincipal::changeEvent(QEvent *e)
 
 void VentanaPrincipal::on_alinear_pushButton_clicked()
 {    
+    ui->statusbar->showMessage("Alineando...");
+    this->barraProgreso->setVisible(true);
     bool banderaPass=true;
-    if(puntaje!=NULL)
+    if(puntaje!=NULL){
         delete puntaje;
-    if(alinearThread!=NULL)
+        puntaje=NULL;
+    }
+    if(alinearThread!=NULL){
         delete alinearThread;
+        alinearThread=NULL;
+    }
 
     ui->alinear_pushButton->setEnabled(false);
 
@@ -97,6 +118,8 @@ void VentanaPrincipal::on_alinear_pushButton_clicked()
 
 void VentanaPrincipal::on_limpiar_pushButton_clicked()
 {
+    ui->statusbar->showMessage("limpiando...");
+    this->barraProgreso->setVisible(false);
     if(puntaje==NULL){
         ui->salida_textBrowser->setText ("");
     }else{
@@ -109,23 +132,22 @@ void VentanaPrincipal::on_limpiar_pushButton_clicked()
         delete ventana;
         ventana=NULL;
     }
+    ui->statusbar->showMessage("limpio.",2000);
 }
 
 void VentanaPrincipal::on_verMatriz_pushButton_2_clicked()
 {
+    ui->statusbar->showMessage("Generando matriz",3000);
+    this->barraProgreso->setVisible(false);
     if(puntaje==NULL){
         QMessageBox::critical(this,"No se ha generado ninguna secuencia","No se ha generado ninguna secuencia");
     }else{
-        if(ventana==NULL){
-            QString auxiliar=puntaje->getMatrizResultante ();
-            ventana=new VentanaMatriz(auxiliar);
-            ventana->show ();
-        }else{
+        if(ventana!=NULL){
+            ventana->close();
             delete ventana;
-            QString auxiliar=puntaje->getMatrizResultante ();
-            ventana=new VentanaMatriz(auxiliar);
-            ventana->show ();
         }
+        ventana=new VentanaMatriz(puntaje);
+        ventana->show();
     }
 }
 
@@ -148,12 +170,7 @@ void VentanaPrincipal::on_actionAcerca_de_Qt_triggered()
 
 void VentanaPrincipal::on_actionAcerca_de_estePrograma_triggered()
 {
-   /* QMessageBox::about (this,"Creacion C4M170RTT3","Este programa ha sido diseñado y creado por \n"
-                        "Camilo Antonio Ramirez Morales estudiante de \n"
-                              "la Universidad distrital Francisco Jose de caldas\n"
-                               "Para mayor informacion camilortte@hotmail.com");*/
     aboutMe->show();
-
 }
 
 void VentanaPrincipal::on_actionCopiar_triggered()
@@ -209,6 +226,8 @@ void VentanaPrincipal::hilo()
     ui->salida_textBrowser->append(alinearThread->getResultados()[0]);
     ui->salida_textBrowser->append (alinearThread->getResultados()[1]);
     ui->alinear_pushButton->setEnabled(true);
+    ui->statusbar->showMessage("Alineado.",3000);
+    this->barraProgreso->setVisible(false);
 }
 
 

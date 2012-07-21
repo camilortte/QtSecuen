@@ -17,7 +17,8 @@ HEADERS += src/Headers/ventanaprincipal.h \
     src/Headers/alinearthread.h \
     src/Headers/puntaje.h \
     src/Headers/exportararchivo.h \
-    src/Headers/dialog.h
+    src/Headers/dialog.h \
+    src/Headers/getmatrizthread.h
 
 SOURCES += src/Sources/ventanaprincipal.cpp \
     src/Sources/ventanamatriz.cpp \
@@ -26,7 +27,8 @@ SOURCES += src/Sources/ventanaprincipal.cpp \
     src/Sources/convercion.cpp \
     src/Sources/alinearthread.cpp \
     src/Sources/exportararchivo.cpp \
-    src/Sources/dialog.cpp
+    src/Sources/dialog.cpp \
+    src/Sources/getmatrizthread.cpp
 
 FORMS += src/Forms/ventanaprincipal.ui \
     src/Forms/ventanamatriz.ui \

@@ -53,13 +53,10 @@ Puntaje::Puntaje(QString entrada1, QString entrada2, bool iniciarAutomaticamente
 
 Puntaje::Puntaje(QFile *archivo, bool iniciaarAutomaticamente)
 {
-    QString secuencia1="",secuencia2="",nombreSecuencia1,nombreSecuencia2;
-    short contador=1;
-    //BufferedReader reader = null;
+    QString nombreSecuencia1,nombreSecuencia2;
     this->archivo=archivo;
     if (!archivo->open(QIODevice::ReadOnly | QIODevice::Text)){
-        qDebug()<<"error de archivo";
-        //QMessageBox::information(NULL,"Error al abrir el archivo","Error de lectura , no se puede abrir el archivo");
+        QMessageBox::information(NULL,"Error al abrir el archivo","Error de lectura , no se puede abrir el archivo");
     }else{
         QTextStream stream(archivo);
         QString linea;
@@ -97,6 +94,13 @@ Puntaje::Puntaje(QFile *archivo, bool iniciaarAutomaticamente)
             inicializar();
         }
     }
+}
+
+Puntaje::~Puntaje()
+{
+//    if(archivo!=NULL)
+//        delete archivo;
+//
 }
 
 
@@ -157,6 +161,8 @@ QString Puntaje::getMatrizResultante()
     QString auxiliar1="",auxiliar2="";
     int mayor=0;
     int tipo,temporal = 0;
+    int estado=0;
+    this->maximoMatriz=vecta.size ()*vectb.size()*2;
 
     mayor=array2D[0][0];
     for(int i=0;i<vecta.size ();i++){
@@ -164,21 +170,29 @@ QString Puntaje::getMatrizResultante()
             if(array2D[i][j]>mayor){
                 mayor=array2D[i][j];
             }
+            estado++;
+            emit estadoGenerarMatriz(estado,maximoMatriz);
         }
+        estado++;
+        emit estadoGenerarMatriz(estado,maximoMatriz);
     }
     auxiliar1+=mayor;
     tipo=auxiliar1.length()+3;
     auxiliar1="";
     for(int i=0;i<vecta.size ();i++){
-        for(int j=0;j<vectb.size ();j++){
+        for(int j=0;j<vectb.size ();j++){            
             auxiliar1=Convercion::qint32ToQString (array2D[i][j]);
             temporal=tipo-auxiliar1.length();
             for(int j1=0;j1<temporal;j1++){
                 auxiliar1+=" ";
             }
+            estado++;
+//            emit estadoGenerarMatriz(estado,maximoMatriz);
             auxiliar2+=auxiliar1+" ";
         }
         auxiliar2+="\n";
+        estado++;
+        emit estadoGenerarMatriz(estado,maximoMatriz);
     }
     return auxiliar2;
 

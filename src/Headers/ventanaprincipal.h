@@ -7,6 +7,8 @@
 #include <QProgressBar>
 #include "src/Headers/alinearthread.h"
 #include "src/Headers/dialog.h"
+#include "src/Headers/getmatrizthread.h"
+#include <QProgressBar>
 
 namespace Ui {
 class VentanaPrincipal;
@@ -67,6 +69,7 @@ private:
     AlinearThread *alinearThread;
     QObject *conector;
     Dialog *aboutMe;
+    getMatrizThread *getMatrizThread1;
 };
 
 #endif // VENTANAPRINCIPAL_H

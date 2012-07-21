@@ -20,6 +20,18 @@ AlinearThread::AlinearThread(QFile *archivo)
     this->archivo=archivo;
 }
 
+AlinearThread::~AlinearThread()
+{
+//    if(puntaje!=NULL){
+//        delete puntaje;
+//        puntaje=NULL;
+//    }
+//    if(archivo!=NULL){
+//        delete archivo;
+//        archivo=NULL;
+//    }
+}
+
 void AlinearThread::run()
 {
     QString resultado1="<p> ";
@@ -50,7 +62,7 @@ void AlinearThread::run()
     resultado2+="</p>";
 
     resultados[0]=resultado1;
-    resultados[1]=resultado1;
+    resultados[1]=resultado2;
 
 }
 

@@ -29,16 +29,19 @@ public:
     Puntaje(QString entrada1,QString entrada2);
     Puntaje(QString entrada1,QString entrada2,bool iniciarAutomaticamente);
     Puntaje(QFile *archivo,bool iniciaarAutomaticamente);
+    ~Puntaje();
     QString getMatrizResultante();
     QString getResultado1();
     QString getResultado2();
     QFile *archivo;
     //seguimiento de finalziacion
     int Maximo;
+    int maximoMatriz;
     void iniciarTodo();
 
 signals:
     void estadoAlineacionPuntaje(int,int);
+    void estadoGenerarMatriz(int,int);
 
 };
 
