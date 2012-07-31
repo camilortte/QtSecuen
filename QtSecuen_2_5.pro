@@ -6,7 +6,7 @@
 
 QT       += core gui
 
-TARGET = QrSecuen_2_5
+TARGET = QtSecuen_2_5
 TEMPLATE = app
 
 CONFIG += qt
@@ -37,6 +37,6 @@ FORMS += src/Forms/ventanaprincipal.ui \
 RESOURCES += \
     Resorucess.qrc
 
-
+win32:RC_FILE += ico.rc
 
 
