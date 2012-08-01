@@ -1,6 +1,5 @@
 <RCC>
     <qresource prefix="/">
         <file>Images/images.jpeg</file>
-        <file>metasploit_hax_small.ico</file>
     </qresource>
 </RCC>
